@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cane Pub - Fresh Sugarcane Juice | Bogadi, Mysuru</title>
-  <meta name="description" content="Pure, natural sugarcane juice at budget prices. Located in Bogadi 2nd Stage, Mysuru. Starting at just ₹15!">
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header id="header"></header>
+  <header>
+    <div class="logo">Cane Pub</div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html" id="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <main>
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Cane Pub</h1>
-        <p class="tagline">100% Natural • Fresh • Budget Friendly</p>
-        <p class="location">Bogadi 2nd Stage, Mysuru, Karnataka</p>
-        <a href="menu.html" class="btn-primary">View Menu</a>
-      </div>
-    </section>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>100% Natural • Fresh • Budget Friendly</h1>
+      <p>Bogadi 2nd Stage, Mysuru, Karnataka</p>
+      <a href="menu.html" class="btn">View Menu</a>
+    </div>
+  </section>
 
-    <!-- Quick Info -->
-    <section class="quick-info container">
-      <div class="card glass">
+  <section class="features">
+    <div class="container">
+      <div class="card">
         <h3>Starting at only ₹15</h3>
         <p>Freshest sugarcane juice with exciting flavors</p>
       </div>
-      <div class="card glass">
+      <div class="card">
         <h3>Open Daily</h3>
-        <p>8:00 AM – 10:00 PM</p>
+        <p>8:00 AM - 10:00 PM</p>
       </div>
-      <div class="card glass">
+      <div class="card">
         <h3>Takeaway & Parcel</h3>
         <p>1 litre parcels available</p>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <footer id="footer"></footer>
+  <footer>
+    <p>&copy; 2025 Cane Pub • Bogadi 2nd Stage, Mysuru, Karnataka • Call: +91 98765 43210</p>
+  </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Cane Pub</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="logo">Cane Pub</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="gallery.html" class="active">Gallery</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html" id="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="container" style="padding:4rem 2rem; text-align:center;">
+    <h1>Our Gallery</h1>
+    <p style="font-size:1.3rem; color:#666;">Photos coming very soon!</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:2rem;">
+      <div class="card" style="height:200px; background:#eee;">Photo 1</div>
+      <div class="card" style="height:200px; background:#eee;">Photo 2</div>
+      <div class="card" style="height:200px; background:#eee;">Photo 3</div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 Cane Pub</footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
