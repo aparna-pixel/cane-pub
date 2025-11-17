@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart - Cane Pub</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header id="header"></header>
+  <section class="container" style="min-height:80vh;padding:6rem 0;">
+    <h1>Your Cart</h1>
+    <div id="cart-items" class="glass" style="margin:2rem 0;"></div>
+    <div id="total" style="font-size:1.5rem;font-weight:bold;"></div>
+    <button class="btn-primary" onclick="alert('Order sent! We will call you soon.')">Place Order (Call us)</button>
+  </section>
+  <footer id="footer"></footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    const cart = JSON.parse(localStorage.getItem("canePubCart")) || [];
+    const itemsDiv = document.getElementById("cart-items");
+    let total = 0;
+
+    if (cart.length === 0) {
+      itemsDiv.innerHTML = "<p>Your cart is empty</p>";
+    } else {
+      cart.forEach((item, i) => {
+        total += item.price * item.qty;
+        itemsDiv.innerHTML += `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.2);">
+            <div>
+              <strong>${item.name}</strong> × ${item.qty}
+            </div>
+            <div>₹${item.price * item.qty}
+              <button onclick="cart.splice(${i},1);localStorage.setItem('canePubCart',JSON.stringify(cart));location.reload();" 
+                      style="margin-left:1rem;background:#ff4444;color:white;border:none;padding:0.3rem 0.6rem;border-radius:5px;">Remove</button>
+            </div>
+          </div>`;
+      });
+    }
+    document.getElementById("total").textContent = "Total: ₹" + total;
+  </script>
+</body>
+</html>
