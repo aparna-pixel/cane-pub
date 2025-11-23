@@ -4,41 +4,224 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu - Cane Pub</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    
+    body{
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#f8fff8,#fffaf0);
+      padding-top:100px;        /* PERFECT SPACE AFTER HEADER */
+      min-height:100vh;
+    }
+
+    /* PURE BLACK FIXED HEADER */
+    .header{
+      background:#000000;
+      position:fixed;
+      top:0;left:0;width:100%;
+      padding:18px 5%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      z-index:1000;
+      box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    }
+    .logo img{height:72px;border-radius:12px;}
+    .nav a{
+      color:white;
+      margin:0 25px;
+      font-weight:600;
+      font-size:1.15rem;
+      text-decoration:none;
+      transition:0.3s;
+    }
+    .nav a:hover,.nav a.active{color:#FF8C00;}
+    .nav a span{color:#FF8C00;font-weight:700;}
+
+    /* MENU TITLE */
+    .menu-title{
+      font-size:4.5rem;
+      text-align:center;
+      color:#2e7d32;
+      margin:40px 0 70px;
+      font-weight:700;
+    }
+
+    /* GRID & CARDS */
+    .menu-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:35px;
+      max-width:1500px;
+      margin:0 auto;
+      padding:0 5%;
+    }
+    .menu-card{
+      background:white;
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:0 15px 45px rgba(0,0,0,0.14);
+      transition:0.4s;
+      height:480px;
+      display:flex;
+      flex-direction:column;
+    }
+    .menu-card:hover{
+      transform:translateY(-15px);
+      box-shadow:0 30px 60px rgba(76,175,80,0.3);
+    }
+    .menu-card img{width:100%;height:260px;object-fit:cover;}
+    .card-body{
+      padding:22px;
+      text-align:center;
+      flex-grow:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .menu-name{
+      font-size:1.65rem;
+      font-weight:600;
+      color:#1b5e20;
+      line-height:1.3;
+      min-height:56px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .menu-price{
+      font-size:2.6rem;
+      font-weight:700;
+      color:#4caf50;
+      margin-bottom:18px;
+    }
+    .add-btn{
+      background:#FF8C00;
+      color:white;
+      border:none;
+      padding:12px 30px;
+      border-radius:50px;
+      font-size:1.15rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:0.3s;
+      align-self:center;
+      width:170px;
+    }
+    .add-btn:hover{background:#e65100;transform:scale(1.08);}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:2000;justify-content:center;align-items:center;}
+    .modal-content{background:white;padding:35px;border-radius:22px;text-align:center;max-width:400px;width:90%;}
+    .close{float:right;font-size:2.2rem;cursor:pointer;color:#aaa;}
+    .qty-btn{background:#4caf50;color:white;border:none;width:44px;height:44px;border-radius:50%;font-size:1.6rem;cursor:pointer;}
+    #qty{font-size:2rem;width:70px;text-align:center;margin:0 12px;border:none;}
+  </style>
 </head>
 <body>
-  <header>
-    <!-- Same header as index.html -->
-    <div class="logo">Cane Pub</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="menu.html" class="active">Menu</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="cart.html" id="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
-      </ul>
+
+  <!-- PERFECT HEADER -->
+  <header class="header">
+    <div class="logo">
+      <img src="assets/images/logo.jpg" alt="Cane Pub Logo">
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="menu.html" class="active">Menu</a>
+      <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
     </nav>
   </header>
 
-  <section class="menu-section">
-    <div class="container">
-      <h1>Our Menu</h1>
-      <div class="filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="cane">Cane Juices</button>
-        <button class="filter-btn" data-filter="parcel">Parcels</button>
+  <h1 class="menu-title">Fresh Cane Juice Menu</h1>
+
+  <div class="menu-grid" id="menu-grid"></div>
+
+  <!-- Add to Cart Modal -->
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('addModal').style.display='none'">×</span>
+      <h2 id="modal-title"></h2>
+      <p id="modal-price" style="font-size:2.3rem;color:#4caf50;font-weight:700;"></p>
+      <div style="margin:25px 0;">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <input type="text" id="qty" value="1" readonly>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
       </div>
-      <div class="menu-grid" id="menu-grid">
-        <!-- Menu items will be populated by JS -->
-      </div>
+      <button class="add-btn" onclick="addToCart()" style="width:100%;padding:16px;font-size:1.4rem;">Add to Cart</button>
     </div>
-  </section>
+  </div>
 
-  <footer><!-- Same as index.html --></footer>
+  <footer style="background:#000;color:white;text-align:center;padding:50px;margin-top:100px;">
+    <p>© 2025 Cane Pub • Bogadi 2nd Stage, Mysuru • Call: +91 98765 43210</p>
+  </footer>
 
-  <script src="js/main.js"></script>
-  <script src="js/menu.js"></script>
+  <script>
+    const menuItems = [
+      {name:"Cane Normal", price:15, img:"cane_normal.jpg"},
+      {name:"Cane Lemon", price:15, img:"cane_lemon.jpg"},
+      {name:"Cane Ginger", price:15, img:"cane_ginger.jpg"},
+      {name:"Cane Lemon & Ginger", price:20, img:"cane_lemon_ginger.jpg"},
+      {name:"Cane Chat Masala", price:20, img:"cane_chatmasala.jpg"},
+      {name:"Cane Mint", price:20, img:"cane_mint.jpg"},
+      {name:"Cane Mirchi", price:20, img:"cane_mirchi.jpg"},
+      {name:"Cane Pepper & Salt", price:30, img:"cane_pepper and salt.jpg"},
+      {name:"Cane Jaljeera", price:30, img:"cane_jaljeera.jpg"}
+    ];
+
+    let cart = JSON.parse(localStorage.getItem('canePubCart') || '[]');
+    let currentItemIndex = 0;
+
+    // Update cart count
+    function updateCartCount() {
+      const total = cart.reduce((s,i)=>s+i.quantity,0);
+      const el = document.getElementById('cart-count');
+      if(el) el.textContent = total;
+    }
+    updateCartCount();
+
+    // Load menu
+    const grid = document.getElementById('menu-grid');
+    menuItems.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'menu-card';
+      card.innerHTML = `
+        <img src="assets/images/${item.img}" alt="${item.name}">
+        <div class="card-body">
+          <div class="menu-name">${item.name}</div>
+          <div class="menu-price">₹${item.price}</div>
+          <button class="add-btn" onclick="openModal(${i})">Add to Cart</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    function openModal(i){
+      currentItemIndex = i;
+      document.getElementById('modal-title').textContent = menuItems[i].name;
+      document.getElementById('modal-price').textContent = '₹' + menuItems[i].price;
+      document.getElementById('qty').value = 1;
+      document.getElementById('addModal').style.display = 'flex';
+    }
+    function changeQty(n){
+      let q = parseInt(document.getElementById('qty').value);
+      q = Math.max(1, q + n);
+      document.getElementById('qty').value = q;
+    }
+    function addToCart(){
+      const item = menuItems[currentItemIndex];
+      const qty = parseInt(document.getElementById('qty').value);
+      const existing = cart.find(x => x.name === item.name);
+      if(existing) existing.quantity += qty;
+      else cart.push({name:item.name, price:item.price, quantity:qty, img:item.img});
+      localStorage.setItem('canePubCart', JSON.stringify(cart));
+      updateCartCount();
+      document.getElementById('addModal').style.display = 'none';
+      alert(item.name + ' × ' + qty + ' added!');
+    }
+  </script>
 </body>
 </html>

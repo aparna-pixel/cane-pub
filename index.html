@@ -8,10 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header with Logo -->
   <header class="header">
     <div class="logo">
-      <img src="assets/images/logo.png" alt="Cane Pub Logo">
+      <img src="assets/images/logo.jpg" alt="Cane Pub Logo">
     </div>
     <nav class="nav">
       <a href="index.html" class="active">Home</a>
@@ -22,18 +21,16 @@
       <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
     </nav>
   </header>
-
-  <!-- Hero Section with your sugarcane image -->
   <section class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>100% Natural • Fresh • Pure</h1>
+      <!-- ONLY THESE TWO LINES CHANGED – smaller & more attractive -->
+      <h2 style="font-size:4.8rem; font-weight:800; margin-bottom:12px; color:#fff; text-shadow:0 4px 20px rgba(0,0,0,0.7); letter-spacing:2px;">CANE PUB</h2>
+      <h1 style="font-size:3.2rem; font-weight:700; color:#fff; text-shadow:0 3px 15px rgba(0,0,0,0.6); letter-spacing:1px;">100% Natural • Fresh • Pure</h1>
       <p>Bogadi 2nd Stage, Mysuru</p>
       <a href="menu.html" class="btn-primary">View Menu</a>
     </div>
   </section>
-
-  <!-- Features -->
   <section class="features">
     <div class="container">
       <div class="card">
@@ -50,11 +47,18 @@
       </div>
     </div>
   </section>
-
   <footer>
     <p>© 2025 Cane Pub • Bogadi 2nd Stage, Mysuru • Call: +91 98765 43210</p>
   </footer>
-
   <script src="assets/js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      let cart = JSON.parse(localStorage.getItem("canePubCart") || "[]");
+      let total = 0;
+      cart.forEach(item => total += item.quantity || 0);
+      const countEl = document.getElementById("cart-count");
+      if (countEl) countEl.textContent = total;
+    });
+  </script>
 </body>
 </html>

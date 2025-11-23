@@ -4,33 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - Cane Pub</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    .header { background:#000 !important; }
+    .nav a { color:white !important; }
+    .nav a:hover, .nav a.active { color:#FF8C00 !important; }
+    
+    /* ONLY THIS LINE ADDED – gives perfect space after header */
+    body { padding-top: 90px; }
+    
+    .about-section { padding:90px 5% 90px; background:linear-gradient(135deg,#f8fff8,#fffaf0); text-align:center; }
+    .main-heading { font-size:4.2rem; font-weight:700; color:#2e7d32; margin-bottom:30px; }
+    .shop-photo { max-width:620px; margin:35px auto 50px auto; border-radius:20px; overflow:hidden; box-shadow:0 16px 45px rgba(0,0,0,0.22); }
+    .shop-photo img { width:100%; height:auto; display:block; }
+    .about-text { font-size:1.45rem; max-width:850px; margin:0 auto 50px; line-height:1.9; color:#333; }
+    .rating-container {
+      margin:40px 0 70px;
+    }
+    .big-stars {
+      font-size:3.8rem;
+      color:#FFD700;
+      letter-spacing:8px;
+    }
+    .rating-text {
+      font-size:1.8rem;
+      font-weight:700;
+      color:#333;
+      margin-top:10px;
+    }
+    .testimonials { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:35px; max-width:1200px; margin:0 auto; }
+    .testimonial { background:white; padding:28px; border-radius:18px; box-shadow:0 12px 35px rgba(0,0,0,0.12); }
+    .profile-pic { width:90px; height:90px; border-radius:50%; object-fit:cover; border:4px solid #4caf50; margin-bottom:15px; }
+    .name { font-weight:700; font-size:1.35rem; color:#1b5e20; margin-bottom:8px; }
+    .review { font-style:italic; color:#444; line-height:1.6; margin:12px 0 10px; }
+    .stars { color:#FFD700; font-size:1.5rem; }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="logo">Cane Pub</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="about.html" class="active">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="cart.html" id="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
-      </ul>
+  <header class="header">
+    <div class="logo"><img src="assets/images/logo.jpg" alt="Cane Pub Logo" style="height:68px;"></div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
     </nav>
   </header>
-
-  <section class="container" style="padding: 4rem 2rem; text-align:center;">
-    <h1>About Cane Pub</h1>
-    <p style="font-size:1.3rem; max-width:700px; margin:2rem auto;">
-      Family-run fresh sugarcane juice shop in Bogadi 2nd Stage, Mysuru.<br>
-      100% natural • No added sugar • No ice • Made fresh in front of you!<br>
-      Serving happy customers since 2020 ♥
+  <section class="about-section">
+    <h1 class="main-heading">Pure. Fresh. Since Day One.</h1>
+    <div class="shop-photo">
+      <img src="assets/images/cane_pub_view.jpg" alt="Cane Pub Shop">
+    </div>
+    <p class="about-text">
+      Started in <strong>August 2025</strong> by <strong>Darshan Gowda</strong> and his dedicated team in Bogadi 2nd Stage, Mysuru.<br><br>
+      Our mission is to serve <strong>affordable, 100% natural, clean and healthy</strong> juices — made fresh right in front of you.<br><br>
+      No added sugar • No ice • No preservatives • Just pure love in every glass 
     </p>
+    <div class="rating-container">
+      <div class="big-stars">★★★★★</div>
+      <div class="rating-text">4.8 / 5</div>
+    </div>
+    <div class="testimonials">
+      <div class="testimonial">
+        <img src="assets/images/customer_profile1.webp" alt="Keerthika" class="profile-pic">
+        <div class="name">Keerthika</div>
+        <div class="review">"Best sugarcane juice in whole Mysuru! So fresh and pure – I come here every evening!"</div>
+        <div class="stars">★★★★★</div>
+      </div>
+      <div class="testimonial">
+        <img src="assets/images/customer_profile2.jpeg" alt="Priya" class="profile-pic">
+        <div class="name">Priya S.</div>
+        <div class="review">"Super clean and hygienic! Lemon-ginger is my all-time favorite "</div>
+        <div class="stars">★★★★★</div>
+      </div>
+      <div class="testimonial">
+        <img src="assets/images/customer_profile3.webp" alt="Arjun" class="profile-pic">
+        <div class="name">Arjun M.</div>
+        <div class="review">"The pre-order feature on their website is a game-changer! I order online and pick up without waiting in queue – perfect for busy days!"</div>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
   </section>
-
-  <footer>&copy; 2025 Cane Pub • Bogadi 2nd Stage, Mysuru</footer>
-  <script src="js/main.js"></script>
+  <footer style="background:#000;color:white;text-align:center;padding:40px;">
+    <p>© 2025 Cane Pub • Bogadi 2nd Stage, Mysuru • Call: +91 98765 43210</p>
+  </footer>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>

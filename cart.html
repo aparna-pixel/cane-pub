@@ -3,24 +3,178 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart - Cane Pub</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <title>Your Cart - Cane Pub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#f8fff8,#fffaf0);padding-top:90px;}
+    .header{background:#000;position:fixed;top:0;width:100%;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;z-index:1000;}
+    .logo img{height:68px;}
+    .nav a{color:white;margin:0 18px;font-weight:600;text-decoration:none;}
+    .nav a:hover,.nav a.active{color:#FF8C00;}
+    .cart-link{background:#FF8C00;padding:10px 20px;border-radius:30px;}
+
+    .cart-section{padding:100px 5% 120px;max-width:1000px;margin:0 auto;}
+    h1{text-align:center;color:#2e7d32;font-size:3.8rem;margin-bottom:40px;}
+
+    .order-status{
+      text-align:center;background:#fff8e1;padding:25px;border-radius:20px;margin-bottom:35px;
+      font-size:1.9rem;font-weight:700;box-shadow:0 10px 30px rgba(255,193,7,0.2);display:none;
+    }
+    .status-preparing{color:#ff9800;}
+    .status-ready{color:#4caf50;}
+    .timer{font-size:3.5rem;color:#2e7d32;margin:15px 0;font-weight:800;}
+
+    .cart-item{display:flex;align-items:center;background:white;margin:18px 0;padding:20px;border-radius:16px;box-shadow:0 6px 22px rgba(0,0,0,0.1);}
+    .cart-item img{width:90px;height:90px;object-fit:cover;border-radius:12px;margin-right:20px;}
+    .item-details h3{font-size:1.5rem;color:#1b5e20;}
+    .item-details p{font-size:1.3rem;color:#555;margin-top:5px;}
+    .remove-btn{background:#e74c3c;color:white;padding:10px 18px;border:none;border-radius:50px;cursor:pointer;font-weight:600;}
+
+    .total-price{font-size:2.6rem;font-weight:700;color:#2e7d32;text-align:right;margin:35px 0;}
+
+    .payment-buttons{display:flex;gap:25px;justify-content:center;margin:50px 0 30px;flex-wrap:wrap;}
+    .pay-btn{padding:20px 45px;border-radius:18px;color:white;font-size:1.6rem;font-weight:700;text-decoration:none;box-shadow:0 12px 35px rgba(0,0,0,0.25);transition:0.3s;}
+    .gpay{background:#673ab7;}
+    .paytm{background:#00baf2;}
+    .pay-btn:hover{transform:scale(1.07);}
+
+    .upi-text{
+      text-align:center;font-size:1.4rem;color:#444;margin:20px 0 40px;
+    }
+    .whatsapp-btn{background:#25D366;color:white;padding:22px 70px;font-size:1.8rem;border:none;border-radius:50px;cursor:pointer;}
+  </style>
 </head>
 <body>
-  <header><!-- Same header --></header>
 
-  <section class="cart-section">
-    <div class="container">
-      <h1>Your Cart</h1>
-      <div id="cart-items"></div>
-      <p id="total">Total: ₹0</p>
-      <button class="btn" onclick="checkout()">Checkout</button>
+  <header class="header">
+    <div class="logo"><img src="assets/images/logo.jpg" alt="Logo"></div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html" class="cart-link">Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+  </header>
+
+  <div class="cart-section">
+    <h1>Your Order</h1>
+
+    <div class="order-status" id="status-box">
+      <div id="status-text" class="status-preparing">Preparing your fresh juice...</div>
+      <div class="timer" id="timer">5:00</div>
     </div>
-  </section>
 
-  <footer><!-- Same --></footer>
+    <div id="cart-items"></div>
 
-  <script src="js/main.js"></script>
-  <script src="js/cart.js"></script>
+    <div class="total-price">Total: ₹<span id="total-amount">0</span></div>
+
+    <!-- Big Payment Buttons -->
+    <div class="payment-buttons">
+      <a id="gpay-link" class="pay-btn gpay">Pay with GPay</a>
+      <a id="paytm-link" class="pay-btn paytm">Pay with Paytm</a>
+    </div>
+
+    <!-- Small clean text instead of QR images -->
+    <div class="upi-text">
+      <strong>GPay / PhonePe / Paytm UPI ID:</strong><br>
+      <span style="font-size:1.7rem;color:#4caf50;font-weight:700;">9876543210@okaxis</span>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="whatsapp-btn" onclick="sendWhatsApp()">Confirm & Pay via WhatsApp</button>
+    </div>
+  </div>
+
+  <footer style="background:#000;color:white;text-align:center;padding:40px;">
+    <p>© 2025 Cane Pub • Bogadi 2nd Stage, Mysuru • Call: +91 98765 43210</p>
+  </footer>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('canePubCart') || '[]');
+    let orderTime = localStorage.getItem('canePubOrderTime');
+
+    if (cart.length > 0 && !orderTime) {
+      orderTime = Date.now();
+      localStorage.setItem('canePubOrderTime', orderTime);
+    }
+
+    document.getElementById('cart-count').textContent = cart.reduce((s,i)=>s+i.quantity,0);
+
+    function renderCart() {
+      const total = cart.reduce((s,i)=>s+i.price*i.quantity,0);
+      document.getElementById('total-amount').textContent = total;
+
+      document.getElementById('gpay-link').href = `upi://pay?pa=9876543210@okaxis&pn=Cane Pub&am=${total}&cu=INR`;
+      document.getElementById('paytm-link').href = `paytmmp://pay?pa=9876543210@paytm&pn=Cane Pub&am=${total}&cu=INR`;
+
+      if (cart.length === 0) {
+        document.getElementById('cart-items').innerHTML = '<h2 style="text-align:center;color:#999;margin:120px 0;">Your cart is empty 😊<br><br><a href="menu.html" style="color:#4caf50;font-size:1.5rem;">← Back to Menu</a></h2>';
+        document.getElementById('status-box').style.display = 'none';
+        return;
+      }
+
+      document.getElementById('status-box').style.display = 'block';
+      if (!orderTime) {
+        orderTime = Date.now();
+        localStorage.setItem('canePubOrderTime', orderTime);
+      }
+
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      cart.forEach((item,i)=>{
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="assets/images/${item.img}">
+          <div class="item-details">
+            <h3>${item.name}</h3>
+            <p>₹${item.price} × ${item.quantity} = ₹${item.price*item.quantity}</p>
+          </div>
+          <button class="remove-btn" onclick="removeItem(${i})">Remove</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function removeItem(i){
+      cart.splice(i,1);
+      localStorage.setItem('canePubCart',JSON.stringify(cart));
+      if(cart.length===0) localStorage.removeItem('canePubOrderTime');
+      renderCart();
+      document.getElementById('cart-count').textContent = cart.reduce((s,i)=>s+i.quantity,0);
+      startTimer();
+    }
+
+    function startTimer(){
+      if(!orderTime || cart.length===0) return;
+      const interval = setInterval(()=>{
+        const elapsed = Math.floor((Date.now() - orderTime)/1000);
+        const remaining = 300 - elapsed;
+        if(remaining <= 0){
+          document.getElementById('status-text').textContent = "Your order is ready! Come & take";
+          document.getElementById('status-text').className = "status-ready";
+          document.getElementById('timer').textContent = "Ready!";
+          clearInterval(interval);
+        }else{
+          const m = String(Math.floor(remaining/60)).padStart(2,'0');
+          const s = String(remaining%60).padStart(2,'0');
+          document.getElementById('timer').textContent = m+':'+s;
+        }
+      },1000);
+    }
+
+    function sendWhatsApp(){
+      let msg = "*Cane Pub Pre-Order*\n\n";
+      cart.forEach(item=>msg+=`${item.name} × ${item.quantity} = ₹${item.price*item.quantity}\n`);
+      msg += `\n*Total: ₹${cart.reduce((s,i)=>s+i.price*i.quantity,0)}*`;
+      location.href='https://wa.me/919876543210?text='+encodeURIComponent(msg);
+    }
+
+    renderCart();
+    startTimer();
+  </script>
 </body>
 </html>
