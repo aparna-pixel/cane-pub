@@ -7,15 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    
     body{
       font-family:'Poppins',sans-serif;
       background:linear-gradient(135deg,#f8fff8,#fffaf0);
-      padding-top:100px;        /* PERFECT SPACE AFTER HEADER */
+      padding-top:100px;
       min-height:100vh;
     }
-
-    /* PURE BLACK FIXED HEADER */
     .header{
       background:#000000;
       position:fixed;
@@ -38,8 +35,6 @@
     }
     .nav a:hover,.nav a.active{color:#FF8C00;}
     .nav a span{color:#FF8C00;font-weight:700;}
-
-    /* MENU TITLE */
     .menu-title{
       font-size:4.5rem;
       text-align:center;
@@ -47,8 +42,6 @@
       margin:40px 0 70px;
       font-weight:700;
     }
-
-    /* GRID & CARDS */
     .menu-grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
@@ -110,8 +103,6 @@
       width:170px;
     }
     .add-btn:hover{background:#e65100;transform:scale(1.08);}
-
-    /* MODAL */
     .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:2000;justify-content:center;align-items:center;}
     .modal-content{background:white;padding:35px;border-radius:22px;text-align:center;max-width:400px;width:90%;}
     .close{float:right;font-size:2.2rem;cursor:pointer;color:#aaa;}
@@ -120,8 +111,6 @@
   </style>
 </head>
 <body>
-
-  <!-- PERFECT HEADER -->
   <header class="header">
     <div class="logo">
       <img src="assets/images/logo.jpg" alt="Cane Pub Logo">
@@ -135,19 +124,16 @@
       <a href="about.html">About</a>
     </nav>
   </header>
-
   <h1 class="menu-title">Fresh Cane Juice Menu</h1>
-
   <div class="menu-grid" id="menu-grid"></div>
 
-  <!-- Add to Cart Modal -->
   <div class="modal" id="addModal">
     <div class="modal-content">
-      <span class="close" onclick="document.getElementById('addModal').style.display='none'">×</span>
+      <span class="close" onclick="document.getElementById('addModal').style.display='none'">x</span>
       <h2 id="modal-title"></h2>
       <p id="modal-price" style="font-size:2.3rem;color:#4caf50;font-weight:700;"></p>
       <div style="margin:25px 0;">
-        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <button class="qty-btn" onclick="changeQty(-1)">-</button>
         <input type="text" id="qty" value="1" readonly>
         <button class="qty-btn" onclick="changeQty(1)">+</button>
       </div>
@@ -156,40 +142,39 @@
   </div>
 
   <footer style="background:#000;color:white;text-align:center;padding:50px;margin-top:100px;">
-    <p>© 2025 Cane Pub • Bogadi 2nd Stage, Mysuru • Call: +91 98765 43210</p>
+    <p>© 2025 Cane Pub • Bogadi 2nd Stage, Mysuru • Call: +91 7736145690</p>
   </footer>
 
   <script>
     const menuItems = [
-      {name:"Cane Normal", price:15, img:"cane_normal.jpg"},
-      {name:"Cane Lemon", price:15, img:"cane_lemon.jpg"},
-      {name:"Cane Ginger", price:15, img:"cane_ginger.jpg"},
-      {name:"Cane Lemon & Ginger", price:20, img:"cane_lemon_ginger.jpg"},
-      {name:"Cane Chat Masala", price:20, img:"cane_chatmasala.jpg"},
-      {name:"Cane Mint", price:20, img:"cane_mint.jpg"},
-      {name:"Cane Mirchi", price:20, img:"cane_mirchi.jpg"},
-      {name:"Cane Pepper & Salt", price:30, img:"cane_pepper and salt.jpg"},
-      {name:"Cane Jaljeera", price:30, img:"cane_jaljeera.jpg"}
+      {name:"Cane Normal", price:15, img:"assets/images/cane_normal.jpg"},
+      {name:"Cane Lemon", price:15, img:"assets/images/cane_lemon.jpg"},
+      {name:"Cane Ginger", price:15, img:"assets/images/cane_ginger.jpg"},
+      {name:"Cane Lemon & Ginger", price:20, img:"assets/images/cane_lemon_ginger.jpg"},
+      {name:"Cane Chat Masala", price:20, img:"assets/images/cane_chatmasala.jpg"},
+      {name:"Cane Mint", price:20, img:"assets/images/cane_mint.jpg"},
+      {name:"Cane Mirchi", price:20, img:"assets/images/cane_mirchi.jpg"},
+      {name:"Cane Pepper & Salt", price:30, img:"assets/images/cane_pepper and salt.jpg"},
+      {name:"Cane Jaljeera", price:30, img:"assets/images/cane_jaljeera.jpg"}
     ];
 
-    let cart = JSON.parse(localStorage.getItem('canePubCart') || '[]');
+    // FIXED: Now uses 'cart' (same as cart.html)
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     let currentItemIndex = 0;
 
-    // Update cart count
     function updateCartCount() {
-      const total = cart.reduce((s,i)=>s+i.quantity,0);
+      const total = cart.reduce((s,i) => s + i.quantity, 0);
       const el = document.getElementById('cart-count');
       if(el) el.textContent = total;
     }
     updateCartCount();
 
-    // Load menu
     const grid = document.getElementById('menu-grid');
     menuItems.forEach((item, i) => {
       const card = document.createElement('div');
       card.className = 'menu-card';
       card.innerHTML = `
-        <img src="assets/images/${item.img}" alt="${item.name}">
+        <img src="${item.img}" alt="${item.name}" onerror="this.src='assets/images/placeholder.jpg'">
         <div class="card-body">
           <div class="menu-name">${item.name}</div>
           <div class="menu-price">₹${item.price}</div>
@@ -206,21 +191,26 @@
       document.getElementById('qty').value = 1;
       document.getElementById('addModal').style.display = 'flex';
     }
+
     function changeQty(n){
       let q = parseInt(document.getElementById('qty').value);
       q = Math.max(1, q + n);
       document.getElementById('qty').value = q;
     }
+
     function addToCart(){
       const item = menuItems[currentItemIndex];
       const qty = parseInt(document.getElementById('qty').value);
       const existing = cart.find(x => x.name === item.name);
       if(existing) existing.quantity += qty;
       else cart.push({name:item.name, price:item.price, quantity:qty, img:item.img});
-      localStorage.setItem('canePubCart', JSON.stringify(cart));
+      
+      // FIXED: Now saves to 'cart' (not canePubCart)
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
       updateCartCount();
       document.getElementById('addModal').style.display = 'none';
-      alert(item.name + ' × ' + qty + ' added!');
+      alert(item.name + ' × ' + qty + ' added to cart!');
     }
   </script>
 </body>
